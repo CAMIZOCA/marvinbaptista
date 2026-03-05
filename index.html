@@ -1,0 +1,1213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marvin Baptista - Senior Full-Stack Developer | VR/Game Development</title>
+    <meta name="description" content="Senior Full-Stack Developer specializing in VR/Game Development and Web Technologies. 10+ years experience, 20+ shipped VR games, $15K+ monthly revenue.">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-dark: #0a0e1a;
+            --bg-card: #141829;
+            --accent-primary: #00ff88;
+            --accent-secondary: #00d4ff;
+            --text-primary: #e4e8f0;
+            --text-secondary: #9ca3b8;
+            --gradient-1: linear-gradient(135deg, #00ff88 0%, #00d4ff 100%);
+            --gradient-2: linear-gradient(135deg, rgba(0, 255, 136, 0.1) 0%, rgba(0, 212, 255, 0.1) 100%);
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(10, 14, 26, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 1.5rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        nav .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        nav .logo {
+            font-family: 'Archivo Black', sans-serif;
+            font-size: 1.5rem;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        nav ul {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        nav a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: var(--accent-primary);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            padding: 8rem 2rem 4rem;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(0, 255, 136, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(0, 212, 255, 0.08) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .hero-content {
+            max-width: 1200px;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-label {
+            display: inline-block;
+            padding: 0.5rem 1.5rem;
+            background: var(--gradient-2);
+            border: 1px solid rgba(0, 255, 136, 0.2);
+            border-radius: 50px;
+            color: var(--accent-primary);
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .hero h1 {
+            font-family: 'Archivo Black', sans-serif;
+            font-size: clamp(2.5rem, 8vw, 5rem);
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero .subtitle {
+            font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+            color: var(--text-secondary);
+            max-width: 800px;
+            margin: 0 auto 3rem;
+            font-weight: 400;
+        }
+
+        .hero-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 2rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-family: 'Archivo Black', sans-serif;
+            font-size: 2.5rem;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Section */
+        section {
+            padding: 6rem 2rem;
+        }
+
+        .section-title {
+            font-family: 'Archivo Black', sans-serif;
+            font-size: clamp(2rem, 5vw, 3rem);
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto 4rem;
+        }
+
+        /* Video Showcase Section */
+        .video-showcase {
+            background: var(--bg-card);
+            border-radius: 20px;
+            overflow: hidden;
+            max-width: 1200px;
+            margin: 0 auto 4rem;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 */
+            height: 0;
+            overflow: hidden;
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .video-info {
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .video-info h3 {
+            font-family: 'Archivo Black', sans-serif;
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Project Gallery Carousel */
+        .gallery-carousel {
+            position: relative;
+            max-width: 1200px;
+            margin: 0 auto 4rem;
+            overflow: hidden;
+        }
+
+        .carousel-container {
+            display: flex;
+            transition: transform 0.5s ease;
+            gap: 1.5rem;
+        }
+
+        .carousel-item {
+            min-width: calc(33.333% - 1rem);
+            background: var(--bg-card);
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: transform 0.3s;
+        }
+
+        .carousel-item:hover {
+            transform: scale(1.05);
+        }
+
+        .carousel-item img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .carousel-caption {
+            padding: 1rem;
+            text-align: center;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .carousel-controls {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .carousel-btn {
+            background: var(--bg-card);
+            border: 1px solid rgba(0, 255, 136, 0.3);
+            color: var(--accent-primary);
+            padding: 0.75rem 2rem;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .carousel-btn:hover {
+            background: rgba(0, 255, 136, 0.1);
+            transform: translateY(-2px);
+        }
+
+        /* Web Portfolio Grid */
+        .web-portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .portfolio-item {
+            background: var(--bg-card);
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+        }
+
+        .portfolio-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 60px rgba(0, 255, 136, 0.15);
+        }
+
+        .portfolio-thumbnail {
+            width: 100%;
+            height: 220px;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            font-size: 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .portfolio-thumbnail::after {
+            content: 'Click to view';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 255, 136, 0.9);
+            color: var(--bg-dark);
+            padding: 0.5rem;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-align: center;
+            transform: translateY(100%);
+            transition: transform 0.3s;
+        }
+
+        .portfolio-item:hover .portfolio-thumbnail::after {
+            transform: translateY(0);
+        }
+
+        .portfolio-info {
+            padding: 1.5rem;
+        }
+
+        .portfolio-info h3 {
+            font-family: 'Archivo Black', sans-serif;
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .portfolio-info p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .portfolio-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .portfolio-tag {
+            padding: 0.3rem 0.8rem;
+            background: rgba(0, 255, 136, 0.1);
+            border: 1px solid rgba(0, 255, 136, 0.2);
+            border-radius: 20px;
+            font-size: 0.75rem;
+            color: var(--accent-primary);
+        }
+
+        /* GitHub Section */
+        .github-section {
+            background: var(--bg-card);
+            border-radius: 20px;
+            padding: 3rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            text-align: center;
+        }
+
+        .github-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .github-stat {
+            padding: 1.5rem;
+            background: rgba(0, 255, 136, 0.05);
+            border-radius: 12px;
+            border: 1px solid rgba(0, 255, 136, 0.1);
+        }
+
+        .github-stat-value {
+            font-family: 'Archivo Black', sans-serif;
+            font-size: 2rem;
+            color: var(--accent-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .github-link {
+            display: inline-block;
+            margin-top: 2rem;
+            padding: 1rem 2.5rem;
+            background: var(--gradient-1);
+            color: var(--bg-dark);
+            text-decoration: none;
+            font-weight: 700;
+            border-radius: 50px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .github-link:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0, 255, 136, 0.3);
+        }
+
+        /* Interactive Demos */
+        .demo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .demo-card {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 2rem;
+            border: 1px solid rgba(255, 255, 136, 0.1);
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .demo-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gradient-1);
+            transform: scaleX(0);
+            transition: transform 0.3s;
+        }
+
+        .demo-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .demo-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(0, 255, 136, 0.3);
+        }
+
+        .demo-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .demo-card h3 {
+            font-family: 'Archivo Black', sans-serif;
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+        }
+
+        .demo-card p {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+        }
+
+        .demo-btn {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            background: rgba(0, 255, 136, 0.1);
+            border: 1px solid rgba(0, 255, 136, 0.3);
+            color: var(--accent-primary);
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .demo-btn:hover {
+            background: rgba(0, 255, 136, 0.2);
+            transform: translateX(5px);
+        }
+
+        /* Case Studies - keeping from v1 */
+        .case-studies {
+            display: grid;
+            gap: 3rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .case-study {
+            background: var(--bg-card);
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .case-study:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 60px rgba(0, 255, 136, 0.1);
+        }
+
+        .case-study-header {
+            padding: 3rem;
+            background: var(--gradient-2);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .case-tag {
+            display: inline-block;
+            padding: 0.4rem 1rem;
+            background: rgba(0, 255, 136, 0.15);
+            border: 1px solid rgba(0, 255, 136, 0.3);
+            border-radius: 50px;
+            color: var(--accent-primary);
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .case-study h3 {
+            font-family: 'Archivo Black', sans-serif;
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .case-study-description {
+            color: var(--text-secondary);
+            font-size: 1.05rem;
+            line-height: 1.7;
+        }
+
+        .case-study-content {
+            padding: 3rem;
+        }
+
+        .case-metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .metric {
+            padding: 1.5rem;
+            background: rgba(0, 255, 136, 0.05);
+            border-radius: 12px;
+            border: 1px solid rgba(0, 255, 136, 0.1);
+        }
+
+        .metric-value {
+            font-family: 'Archivo Black', sans-serif;
+            font-size: 1.8rem;
+            color: var(--accent-primary);
+            margin-bottom: 0.3rem;
+        }
+
+        .metric-label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            margin-top: 2rem;
+        }
+
+        .tech-tag {
+            padding: 0.5rem 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        /* Skills Grid */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .skill-card {
+            background: var(--bg-card);
+            padding: 2rem;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: transform 0.3s;
+        }
+
+        .skill-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .skill-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .skill-card h3 {
+            font-family: 'Archivo Black', sans-serif;
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+        }
+
+        .skill-list {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.8;
+        }
+
+        /* Contact Section */
+        .contact {
+            background: var(--bg-card);
+            text-align: center;
+        }
+
+        .contact-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            background: var(--gradient-1);
+            color: var(--bg-dark);
+            text-decoration: none;
+            font-weight: 700;
+            border-radius: 50px;
+            transition: transform 0.3s, box-shadow 0.3s;
+            font-size: 1.05rem;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0, 255, 136, 0.3);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border: 2px solid var(--accent-primary);
+            color: var(--accent-primary);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(0, 255, 136, 0.1);
+        }
+
+        /* Footer */
+        footer {
+            padding: 3rem 2rem;
+            text-align: center;
+            color: var(--text-secondary);
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            nav ul {
+                gap: 1rem;
+                font-size: 0.9rem;
+            }
+
+            .hero-stats {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .carousel-item {
+                min-width: calc(100% - 1rem);
+            }
+
+            .case-study-header,
+            .case-study-content {
+                padding: 2rem;
+            }
+
+            .case-metrics {
+                grid-template-columns: 1fr;
+            }
+
+            .contact-buttons {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .web-portfolio-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="container">
+            <div class="logo">MB</div>
+            <ul>
+                <li><a href="#showcase">Showcase</a></li>
+                <li><a href="#work">VR Projects</a></li>
+                <li><a href="#web">Web Portfolio</a></li>
+                <li><a href="#demos">Demos</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-label">Available for Remote Work • $5K-8K/month</div>
+            <h1>MARVIN BAPTISTA</h1>
+            <p class="subtitle">
+                Senior Full-Stack Developer specializing in VR/Game Development and Web Technologies. 
+                Building immersive experiences and scalable applications.
+            </p>
+            <div class="hero-stats">
+                <div class="stat">
+                    <span class="stat-number">10+</span>
+                    <span class="stat-label">Years Experience</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number">20+</span>
+                    <span class="stat-label">VR Games Shipped</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number">219K+</span>
+                    <span class="stat-label">Active Players</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number">$15K+</span>
+                    <span class="stat-label">Monthly Revenue</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Video Showcase Section -->
+    <section id="showcase">
+        <h2 class="section-title">Video Showcase</h2>
+        <p class="section-subtitle">
+            Watch a compilation of VR games and projects I've developed
+        </p>
+        
+        <div class="container">
+            <div class="video-showcase">
+                <div class="video-container">
+                    <!-- Replace VIDEO_ID with your actual YouTube video ID -->
+                    <iframe 
+                        src="https://www.youtube.com/embed/VIDEO_ID" 
+                        title="Marvin Baptista - VR Game Development Showcase" 
+                        frameborder="0" 
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                        allowfullscreen>
+                    </iframe>
+                </div>
+                <div class="video-info">
+                    <h3>VR Game Development Highlights</h3>
+                    <p class="case-study-description">
+                        A compilation showcasing gameplay, mechanics, and features from 20+ VR games 
+                        developed for Meta Horizon Worlds platform.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Project Gallery Carousel -->
+            <div class="gallery-carousel">
+                <h3 style="text-align: center; font-family: 'Archivo Black'; margin-bottom: 2rem; font-size: 1.8rem;">
+                    Project Gallery (22 Games)
+                </h3>
+                <div class="carousel-container" id="carousel">
+                    <!-- Placeholder for 22 project images -->
+                    <div class="carousel-item">
+                        <div style="width: 100%; height: 250px; background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); display: flex; align-items: center; justify-content: center; color: #9ca3b8; font-size: 3rem;">🎮</div>
+                        <div class="carousel-caption">VR Multiplayer Game #1</div>
+                    </div>
+                    <div class="carousel-item">
+                        <div style="width: 100%; height: 250px; background: linear-gradient(135deg, #16213e 0%, #0f1b2e 100%); display: flex; align-items: center; justify-content: center; color: #9ca3b8; font-size: 3rem;">🎯</div>
+                        <div class="carousel-caption">VR Experience #2</div>
+                    </div>
+                    <div class="carousel-item">
+                        <div style="width: 100%; height: 250px; background: linear-gradient(135deg, #0f1b2e 0%, #1a1a2e 100%); display: flex; align-items: center; justify-content: center; color: #9ca3b8; font-size: 3rem;">⚽</div>
+                        <div class="carousel-caption">Sports VR Game #3</div>
+                    </div>
+                    <div class="carousel-item">
+                        <div style="width: 100%; height: 250px; background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); display: flex; align-items: center; justify-content: center; color: #9ca3b8; font-size: 3rem;">🏃</div>
+                        <div class="carousel-caption">Action Game #4</div>
+                    </div>
+                    <div class="carousel-item">
+                        <div style="width: 100%; height: 250px; background: linear-gradient(135deg, #16213e 0%, #0f1b2e 100%); display: flex; align-items: center; justify-content: center; color: #9ca3b8; font-size: 3rem;">🎨</div>
+                        <div class="carousel-caption">Creative VR #5</div>
+                    </div>
+                    <div class="carousel-item">
+                        <div style="width: 100%; height: 250px; background: linear-gradient(135deg, #0f1b2e 0%, #1a1a2e 100%); display: flex; align-items: center; justify-content: center; color: #9ca3b8; font-size: 3rem;">🏆</div>
+                        <div class="carousel-caption">Competitive Game #6</div>
+                    </div>
+                    <!-- Add 16 more items to reach 22 total -->
+                </div>
+                <div class="carousel-controls">
+                    <button class="carousel-btn" onclick="scrollCarousel(-1)">← Previous</button>
+                    <button class="carousel-btn" onclick="scrollCarousel(1)">Next →</button>
+                </div>
+                <p style="text-align: center; color: var(--text-secondary); margin-top: 1.5rem; font-size: 0.9rem;">
+                    📸 Upload your 22 project screenshots by replacing the placeholder divs with: 
+                    <code style="background: rgba(255,255,255,0.1); padding: 0.2rem 0.5rem; border-radius: 4px;">&lt;img src="image.jpg" alt="Project"&gt;</code>
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- VR Projects Case Studies (condensed from v1) -->
+    <section id="work">
+        <h2 class="section-title">Featured VR Projects</h2>
+        <p class="section-subtitle">
+            Commercial VR games built with Meta Horizon Worlds
+        </p>
+        
+        <div class="case-studies">
+            <!-- Case Study 1 - Condensed -->
+            <div class="case-study">
+                <div class="case-study-header">
+                    <div class="case-tag">VR Multiplayer • Flagship Title</div>
+                    <h3>Kids/Teen VR Game</h3>
+                    <p class="case-study-description">
+                        Flagship multiplayer VR game with comprehensive monetization and retention systems
+                    </p>
+                </div>
+                <div class="case-study-content">
+                    <div class="case-metrics">
+                        <div class="metric">
+                            <div class="metric-value">219K+</div>
+                            <div class="metric-label">Active Players</div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-value">$15K/mo</div>
+                            <div class="metric-label">Revenue</div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-value">3,437</div>
+                            <div class="metric-label">Player Likes</div>
+                        </div>
+                    </div>
+                    <div class="tech-stack">
+                        <span class="tech-tag">TypeScript</span>
+                        <span class="tech-tag">Meta Horizon Worlds</span>
+                        <span class="tech-tag">Noesis UI</span>
+                        <span class="tech-tag">Monetization</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- More condensed case studies -->
+            <div class="case-study">
+                <div class="case-study-header">
+                    <div class="case-tag">VR Incremental Game</div>
+                    <h3>Multiplayer Resource Game</h3>
+                </div>
+                <div class="case-study-content">
+                    <div class="case-metrics">
+                        <div class="metric">
+                            <div class="metric-value">12.6K</div>
+                            <div class="metric-label">Visitors</div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-value">7 min</div>
+                            <div class="metric-label">Avg Session</div>
+                        </div>
+                    </div>
+                    <div class="tech-stack">
+                        <span class="tech-tag">TypeScript</span>
+                        <span class="tech-tag">Noesis UI</span>
+                        <span class="tech-tag">Analytics</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Web Portfolio Section - NEW -->
+    <section id="web">
+        <h2 class="section-title">Web Development Portfolio</h2>
+        <p class="section-subtitle">
+            Enterprise web applications and custom solutions
+        </p>
+        
+        <div class="container">
+            <div class="web-portfolio-grid">
+                <!-- Web Project 1 -->
+                <div class="portfolio-item">
+                    <div class="portfolio-thumbnail">🌐</div>
+                    <div class="portfolio-info">
+                        <h3>IonPacific Corporate Site</h3>
+                        <p>Custom WordPress solution with advanced integrations</p>
+                        <div class="portfolio-tags">
+                            <span class="portfolio-tag">WordPress</span>
+                            <span class="portfolio-tag">PHP</span>
+                            <span class="portfolio-tag">Custom Theme</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Web Project 2 -->
+                <div class="portfolio-item">
+                    <div class="portfolio-thumbnail">💼</div>
+                    <div class="portfolio-info">
+                        <h3>Telesing Platform</h3>
+                        <p>Enterprise communication platform</p>
+                        <div class="portfolio-tags">
+                            <span class="portfolio-tag">WordPress</span>
+                            <span class="portfolio-tag">API Integration</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Web Project 3 -->
+                <div class="portfolio-item">
+                    <div class="portfolio-thumbnail">📱</div>
+                    <div class="portfolio-info">
+                        <h3>Mitto Solutions</h3>
+                        <p>Custom web application</p>
+                        <div class="portfolio-tags">
+                            <span class="portfolio-tag">React</span>
+                            <span class="portfolio-tag">Node.js</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Add more portfolio items -->
+                <div class="portfolio-item">
+                    <div class="portfolio-thumbnail">📊</div>
+                    <div class="portfolio-info">
+                        <h3>Data Aggregation System</h3>
+                        <p>Job posting aggregation platform (Neuvoo.ca)</p>
+                        <div class="portfolio-tags">
+                            <span class="portfolio-tag">Node.js</span>
+                            <span class="portfolio-tag">ElasticSearch</span>
+                            <span class="portfolio-tag">RabbitMQ</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <p style="text-align: center; color: var(--text-secondary); margin-top: 3rem; font-size: 0.95rem;">
+                💡 <strong>Tip:</strong> Replace placeholder icons with actual screenshots of your websites. 
+                Add links to live sites or GitHub repos.
+            </p>
+        </div>
+    </section>
+
+    <!-- Interactive Demos Section - NEW -->
+    <section id="demos">
+        <h2 class="section-title">Interactive Demos</h2>
+        <p class="section-subtitle">
+            Live code examples and interactive showcases
+        </p>
+        
+        <div class="container">
+            <div class="demo-grid">
+                <div class="demo-card">
+                    <div class="demo-icon">💻</div>
+                    <h3>TypeScript Snippets</h3>
+                    <p>Collection of reusable TypeScript code for VR development in Meta Horizon Worlds</p>
+                    <a href="#" class="demo-btn">View on GitHub →</a>
+                </div>
+
+                <div class="demo-card">
+                    <div class="demo-icon">📊</div>
+                    <h3>Performance Dashboard</h3>
+                    <p>Interactive visualization of game metrics and player analytics</p>
+                    <a href="#" class="demo-btn">Try Live Demo →</a>
+                </div>
+
+                <div class="demo-card">
+                    <div class="demo-icon">🎨</div>
+                    <h3>UI Component Library</h3>
+                    <p>Reusable Noesis UI components for VR interfaces</p>
+                    <a href="#" class="demo-btn">Explore Components →</a>
+                </div>
+
+                <div class="demo-card">
+                    <div class="demo-icon">⚡</div>
+                    <h3>Code Playground</h3>
+                    <p>Interactive TypeScript editor with live VR examples</p>
+                    <a href="#" class="demo-btn">Open Playground →</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- GitHub Section - NEW -->
+    <section id="github">
+        <div class="container">
+            <div class="github-section">
+                <h2 class="section-title" style="margin-bottom: 1rem;">GitHub Profile</h2>
+                <p class="case-study-description" style="max-width: 600px; margin: 0 auto 2rem;">
+                    Explore my open-source contributions and code examples
+                </p>
+                
+                <div class="github-stats">
+                    <div class="github-stat">
+                        <div class="github-stat-value">50+</div>
+                        <div class="stat-label">Repositories</div>
+                    </div>
+                    <div class="github-stat">
+                        <div class="github-stat-value">500+</div>
+                        <div class="stat-label">Contributions</div>
+                    </div>
+                    <div class="github-stat">
+                        <div class="github-stat-value">TypeScript</div>
+                        <div class="stat-label">Primary Language</div>
+                    </div>
+                </div>
+                
+                <a href="https://github.com/YOUR_GITHUB_USERNAME" target="_blank" class="github-link">
+                    Visit GitHub Profile →
+                </a>
+                
+                <p style="color: var(--text-secondary); margin-top: 2rem; font-size: 0.9rem;">
+                    💡 Update the link with your actual GitHub username
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section (from v1) -->
+    <section id="skills">
+        <h2 class="section-title">Technical Expertise</h2>
+        <p class="section-subtitle">
+            Full-stack capabilities across VR/gaming, web development, and cloud infrastructure
+        </p>
+        
+        <div class="skills-grid">
+            <div class="skill-card">
+                <div class="skill-icon">🎮</div>
+                <h3>VR/Game Development</h3>
+                <div class="skill-list">
+                    Meta Horizon Worlds (Expert)<br>
+                    TypeScript (Advanced)<br>
+                    Noesis UI, Turbo, NavMesh<br>
+                    Unity Profiler & Optimization<br>
+                    Multiplayer Systems<br>
+                    Monetization & Analytics
+                </div>
+            </div>
+
+            <div class="skill-card">
+                <div class="skill-icon">💻</div>
+                <h3>Full-Stack Development</h3>
+                <div class="skill-list">
+                    React, Node.js, TypeScript<br>
+                    JavaScript, PHP, Python<br>
+                    WordPress (Custom Plugins/Themes)<br>
+                    REST APIs & Microservices<br>
+                    Symfony Framework<br>
+                    Responsive Web Design
+                </div>
+            </div>
+
+            <div class="skill-card">
+                <div class="skill-icon">☁️</div>
+                <h3>Cloud & DevOps</h3>
+                <div class="skill-list">
+                    AWS (Amplify, Amazon Q)<br>
+                    Azure Cloud Services<br>
+                    WPEngine Deployment<br>
+                    Git Version Control<br>
+                    BrowserStack Testing<br>
+                    CI/CD Pipelines
+                </div>
+            </div>
+
+            <div class="skill-card">
+                <div class="skill-icon">🗄️</div>
+                <h3>Databases</h3>
+                <div class="skill-list">
+                    MySQL & PostgreSQL<br>
+                    Oracle Database<br>
+                    CouchBase<br>
+                    ElasticSearch<br>
+                    Database Design<br>
+                    Query Optimization
+                </div>
+            </div>
+
+            <div class="skill-card">
+                <div class="skill-icon">🤖</div>
+                <h3>AI-Assisted Development</h3>
+                <div class="skill-list">
+                    Advanced Prompt Engineering<br>
+                    Claude, ChatGPT, Codex, Gemini<br>
+                    AI Code Generation<br>
+                    Asset Creation<br>
+                    Workflow Automation<br>
+                    Rapid Prototyping
+                </div>
+            </div>
+
+            <div class="skill-card">
+                <div class="skill-icon">⚡</div>
+                <h3>Performance & Optimization</h3>
+                <div class="skill-list">
+                    VR Performance Tuning<br>
+                    Multiplayer Optimization<br>
+                    Web Performance<br>
+                    Code Profiling<br>
+                    Load Testing<br>
+                    Scalability Architecture
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section (from v1) -->
+    <section id="contact" class="contact">
+        <h2 class="section-title">Let's Work Together</h2>
+        <p class="section-subtitle">
+            Open to remote opportunities • $5K-8K/month range
+        </p>
+        
+        <div class="contact-buttons">
+            <a href="mailto:marvinbaptista@gmail.com" class="btn">Email Me</a>
+            <a href="https://linkedin.com/in/marvinbaptista" target="_blank" class="btn btn-secondary">LinkedIn</a>
+            <a href="https://youtube.com/@marvinbaptistavr2288" target="_blank" class="btn btn-secondary">YouTube</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2026 Marvin Baptista. All rights reserved.</p>
+        <p style="margin-top: 0.5rem; font-size: 0.9rem;">
+            Based in Quito, Ecuador • Available for remote work globally
+        </p>
+    </footer>
+
+    <script>
+        // Carousel functionality
+        let currentSlide = 0;
+        const carousel = document.getElementById('carousel');
+        const items = document.querySelectorAll('.carousel-item');
+        const totalSlides = items.length;
+
+        function scrollCarousel(direction) {
+            const itemWidth = items[0].offsetWidth + 24; // width + gap
+            currentSlide += direction;
+            
+            // Loop carousel
+            if (currentSlide < 0) {
+                currentSlide = totalSlides - 3;
+            } else if (currentSlide > totalSlides - 3) {
+                currentSlide = 0;
+            }
+            
+            carousel.style.transform = `translateX(-${currentSlide * itemWidth}px)`;
+        }
+
+        // Auto-scroll carousel every 5 seconds
+        setInterval(() => {
+            scrollCarousel(1);
+        }, 5000);
+    </script>
+</body>
+</html>
