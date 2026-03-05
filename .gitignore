@@ -1,0 +1,15 @@
+# Node modules (if you add any tooling later)
+node_modules/
+
+# Logs
+*.log
+
+# IDE files
+.vscode/
+
+# OS files
+Thumbs.db
+.DS_Store
+
+# Temporary
+index-new.html
