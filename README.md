@@ -18,7 +18,9 @@ This repository contains a static personal portfolio website for Marvin Baptista
 
 ## Working Locally
 
-1. Open `docs/index.html` in your browser.
+1. Open `docs/index.html` in your browser (the root `index.html` now redirects here automatically).
+   - If you simply double-click the repository root file, you'll be forwarded to the correct location.
+   - Alternatively run a simple local server (e.g. `npx serve docs`) to avoid file:// path issues.
 2. Edit `assets/css/style.css` for styling changes and `assets/js/main.js` for additional behaviour.
 
 ## Deploying to GitHub Pages
