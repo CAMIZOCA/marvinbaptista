@@ -129,6 +129,178 @@ function initProjectGalleryLinks() {
 
 initProjectGalleryLinks();
 
+let localThreeFallbackRaf = null;
+let localThreeFallbackCanvas = null;
+let localThreeFallbackCtx = null;
+let localThreeFallbackParticles = [];
+
+function setThreePortalDiagnostic(message) {
+    const diagnostic = document.getElementById('three-portal-diagnostic');
+    if (diagnostic) {
+        diagnostic.textContent = message || '';
+    }
+}
+
+function showThreePortalFallback() {
+    const fallback = document.getElementById('three-portal-fallback');
+    if (fallback) {
+        fallback.hidden = false;
+    }
+}
+
+function hideThreePortalFallback() {
+    const fallback = document.getElementById('three-portal-fallback');
+    if (fallback) {
+        fallback.hidden = true;
+    }
+}
+
+function stopLocalThreePortalFallback() {
+    if (localThreeFallbackRaf) {
+        cancelAnimationFrame(localThreeFallbackRaf);
+        localThreeFallbackRaf = null;
+    }
+
+    if (localThreeFallbackCanvas && localThreeFallbackCanvas.parentNode) {
+        localThreeFallbackCanvas.parentNode.removeChild(localThreeFallbackCanvas);
+    }
+
+    localThreeFallbackCanvas = null;
+    localThreeFallbackCtx = null;
+    localThreeFallbackParticles = [];
+}
+
+function drawLocalThreePortalFallbackFrame() {
+    if (!localThreeFallbackCtx || !localThreeFallbackCanvas) {
+        return;
+    }
+
+    const canvas = localThreeFallbackCanvas;
+    const ctx = localThreeFallbackCtx;
+    const width = canvas.width;
+    const height = canvas.height;
+    const t = performance.now() * 0.001;
+
+    ctx.clearRect(0, 0, width, height);
+
+    const gradient = ctx.createRadialGradient(width * 0.5, height * 0.5, width * 0.1, width * 0.5, height * 0.5, width * 0.6);
+    gradient.addColorStop(0, 'rgba(0,255,136,0.08)');
+    gradient.addColorStop(0.5, 'rgba(0,212,255,0.06)');
+    gradient.addColorStop(1, 'rgba(13,17,23,0.96)');
+    ctx.fillStyle = gradient;
+    ctx.fillRect(0, 0, width, height);
+
+    const cx = width * 0.5;
+    const cy = height * 0.5;
+    const radius = Math.min(width, height) * 0.22;
+
+    ctx.save();
+    ctx.translate(cx, cy);
+    ctx.rotate(t * 0.35);
+    ctx.strokeStyle = 'rgba(0,212,255,0.85)';
+    ctx.lineWidth = 5;
+    ctx.beginPath();
+    ctx.arc(0, 0, radius, 0, Math.PI * 2);
+    ctx.stroke();
+    ctx.strokeStyle = 'rgba(0,255,136,0.85)';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.arc(0, 0, radius * (0.76 + Math.sin(t * 2) * 0.03), 0, Math.PI * 2);
+    ctx.stroke();
+    ctx.restore();
+
+    for (let i = 0; i < localThreeFallbackParticles.length; i += 1) {
+        const p = localThreeFallbackParticles[i];
+        p.angle += p.speed;
+        const x = cx + Math.cos(p.angle) * p.radius;
+        const y = cy + Math.sin(p.angle) * p.radius;
+        ctx.fillStyle = p.color;
+        ctx.beginPath();
+        ctx.arc(x, y, p.size, 0, Math.PI * 2);
+        ctx.fill();
+    }
+
+    localThreeFallbackRaf = requestAnimationFrame(drawLocalThreePortalFallbackFrame);
+}
+
+function startLocalThreePortalFallback(container) {
+    if (!container) {
+        return;
+    }
+
+    stopLocalThreePortalFallback();
+
+    const width = Math.max(1, container.clientWidth || 720);
+    const height = Math.max(1, container.clientHeight || 420);
+    const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+
+    const canvas = document.createElement('canvas');
+    canvas.width = Math.floor(width * dpr);
+    canvas.height = Math.floor(height * dpr);
+    canvas.style.width = '100%';
+    canvas.style.height = '100%';
+
+    const ctx = canvas.getContext('2d');
+    if (!ctx) {
+        return;
+    }
+
+    ctx.scale(dpr, dpr);
+
+    localThreeFallbackCanvas = canvas;
+    localThreeFallbackCtx = ctx;
+    localThreeFallbackParticles = Array.from({ length: 120 }).map(() => ({
+        angle: Math.random() * Math.PI * 2,
+        radius: 65 + Math.random() * 155,
+        speed: 0.002 + Math.random() * 0.004,
+        size: 0.8 + Math.random() * 2.2,
+        color: Math.random() > 0.5 ? 'rgba(0,255,136,0.72)' : 'rgba(0,212,255,0.72)'
+    }));
+
+    container.innerHTML = '';
+    container.appendChild(canvas);
+    localThreeFallbackRaf = requestAnimationFrame(drawLocalThreePortalFallbackFrame);
+}
+
+function showModuleLoadFallback(message) {
+    const threeContainer = document.getElementById('three-portal-canvas');
+    showThreePortalFallback();
+    setThreePortalDiagnostic(message);
+    startLocalThreePortalFallback(threeContainer);
+}
+
+function setupThreePortalRetryButton() {
+    const retryBtn = document.getElementById('three-portal-retry-btn');
+    if (!retryBtn || retryBtn.dataset.bound === 'true') {
+        return;
+    }
+
+    retryBtn.dataset.bound = 'true';
+    retryBtn.addEventListener('click', function () {
+        const threeContainer = document.getElementById('three-portal-canvas');
+        stopLocalThreePortalFallback();
+
+        if (typeof window.initThreePortal === 'function') {
+            const initialized = window.initThreePortal(threeContainer);
+            if (typeof window.startThreePortal === 'function') {
+                window.startThreePortal();
+            }
+            if (initialized) {
+                hideThreePortalFallback();
+                setThreePortalDiagnostic('');
+            }
+            return;
+        }
+
+        const reason = window.__threePortalModuleError
+            ? 'CDN/module load error: failed to load Three.js module script.'
+            : 'CDN/module load error: Three.js API is unavailable.';
+        showModuleLoadFallback(reason);
+    });
+}
+
+setupThreePortalRetryButton();
+
 /* =============================================
    Interactive Demo Panels
    ============================================= */
@@ -146,6 +318,9 @@ function toggleDemo(panelId, triggerBtn) {
             if (p.id === 'panel-threejs' && typeof window.stopThreePortal === 'function') {
                 window.stopThreePortal();
             }
+            if (p.id === 'panel-threejs') {
+                stopLocalThreePortalFallback();
+            }
         }
     });
 
@@ -158,17 +333,36 @@ function toggleDemo(panelId, triggerBtn) {
             const threeContainer = document.getElementById('three-portal-canvas');
             if (typeof window.initThreePortal === 'function') {
                 const initialized = window.initThreePortal(threeContainer);
-                if (initialized && typeof window.startThreePortal === 'function') {
+                if (typeof window.startThreePortal === 'function') {
                     window.startThreePortal();
                 }
+                if (initialized) {
+                    hideThreePortalFallback();
+                    setThreePortalDiagnostic('');
+                }
             } else {
+                const reason = window.__threePortalModuleError
+                    ? 'CDN/module load error: failed to load Three.js module script.'
+                    : 'CDN/module load error: Three.js module is still loading.';
+                showModuleLoadFallback(reason);
+
                 // Module script may still be loading; retry once shortly after opening the panel.
                 setTimeout(function() {
                     if (typeof window.initThreePortal === 'function') {
+                        stopLocalThreePortalFallback();
                         const initialized = window.initThreePortal(threeContainer);
-                        if (initialized && typeof window.startThreePortal === 'function') {
+                        if (typeof window.startThreePortal === 'function') {
                             window.startThreePortal();
                         }
+                        if (initialized) {
+                            hideThreePortalFallback();
+                            setThreePortalDiagnostic('');
+                        }
+                    } else {
+                        const retryReason = window.__threePortalModuleError
+                            ? 'CDN/module load error: failed to load Three.js module script.'
+                            : 'CDN/module load error: Three.js API is unavailable.';
+                        showModuleLoadFallback(retryReason);
                     }
                 }, 250);
             }
@@ -178,6 +372,7 @@ function toggleDemo(panelId, triggerBtn) {
         }, 50);
     } else if (panelId === 'panel-threejs' && typeof window.stopThreePortal === 'function') {
         window.stopThreePortal();
+        stopLocalThreePortalFallback();
     }
 }
 
