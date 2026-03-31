@@ -1,45 +1,66 @@
 # Marvin Baptista Portfolio
 
-This repository contains a static personal portfolio website for Marvin Baptista. It has been reorganized to support scaling and deployment on GitHub Pages.
+Sitio web estatico creado para presentar el portafolio profesional de **Marvin Baptista**:
 
-## Folder Structure
+- Experiencia en VR/Game Development
+- Proyectos de Web Development
+- Demos, stack tecnico y contacto profesional
 
-```
+El objetivo es tener una web rapida, simple de mantener y facil de publicar en GitHub Pages.
+
+## Caracteristicas
+
+- Sitio **100% estatico** (HTML, CSS, JavaScript)
+- Secciones enfocadas en conversion profesional (showcase, proyectos, contacto)
+- Galerias con imagenes locales
+- Portafolio web configurable desde `main.js`
+- Listo para desplegar en `docs/` con GitHub Pages
+
+## Estructura del proyecto
+
+```txt
 /
-├─ docs/                # site content (GitHub Pages will serve from here)
-│   ├─ index.html       # main HTML file
-│   ├─ assets/
-│   │   ├─ css/style.css
-│   │   ├─ js/main.js    # placeholder for custom scripts
-│   │   └─ img/          # static images/screenshots
-├─ README.md            # this file
-├─ .gitignore           # common ignores
+|-- docs/
+|   |-- index.html
+|   |-- assets/
+|   |   |-- css/style.css
+|   |   |-- js/main.js
+|   |   `-- img/
+|-- README.md
+`-- .gitignore
 ```
 
-## Working Locally
+## Ejecutar localmente
 
-1. Open `docs/index.html` in your browser (the root `index.html` now redirects here automatically).
-   - If you simply double-click the repository root file, you'll be forwarded to the correct location.
-   - Alternatively run a simple local server (e.g. `npx serve docs`) to avoid file:// path issues.
-2. Edit `assets/css/style.css` for styling changes and `assets/js/main.js` for additional behaviour.
+1. Abrir `docs/index.html` en el navegador.
+2. Recomendado: levantar un servidor estatico para evitar rutas `file://`.
 
-## Deploying to GitHub Pages
+Ejemplo:
 
-This is configured as a **project site** using the `docs/` folder.
+```bash
+npx serve docs
+```
 
-1. Create a repository named `marvinbaptista` (or whatever you prefer).
-2. Push this code to the `main` branch of that repository.
-3. In GitHub settings, under *Pages*, select the `main` branch and `docs/` folder as the source.
-4. Wait a few minutes – your site will be available at:
-   `https://<your-username>.github.io/marvinbaptista/`
+## Personalizacion rapida
 
-> If you deploy to a subdirectory or repo with a different name, uncomment and update the `<base>` tag in `docs/index.html`.
+- Contenido principal: `docs/index.html`
+- Estilos visuales: `docs/assets/css/style.css`
+- Proyectos web (imagenes + links): `docs/assets/js/main.js`
+- Imagenes del portafolio web: `docs/assets/img/web/`
 
-## Scaling Tips
+## Deploy en GitHub Pages
 
-- Move page sections into partial HTML files and assemble with tooling if content grows.
-- Use a build step (Webpack, Parcel, etc.) if you introduce JS modules or pre-process CSS.
-- Store reusable assets in `assets/img` and reference them relatively.
-- Consider using a static site generator (Jekyll, Hugo, Eleventy) for templating and markdown.
+1. Subir el repo a la rama `main`.
+2. Ir a **Settings > Pages**.
+3. En *Build and deployment*, elegir:
+   - Branch: `main`
+   - Folder: `/docs`
+4. Guardar y esperar la publicacion.
 
-Enjoy building your portfolio! 🚀
+## Enfoque del proyecto
+
+Este repositorio esta pensado para evolucionar como una vitrina profesional:
+
+- Mostrar resultados reales
+- Consolidar marca personal
+- Facilitar contacto con clientes y reclutadores
