@@ -141,7 +141,12 @@ function toggleDemo(panelId, triggerBtn) {
 
     // Close all other open panels
     document.querySelectorAll('.demo-panel.active').forEach(function(p) {
-        if (p.id !== panelId) p.classList.remove('active');
+        if (p.id !== panelId) {
+            p.classList.remove('active');
+            if (p.id === 'panel-threejs' && typeof window.stopThreePortal === 'function') {
+                window.stopThreePortal();
+            }
+        }
     });
 
     panel.classList.toggle('active', !isOpen);
@@ -149,9 +154,30 @@ function toggleDemo(panelId, triggerBtn) {
     if (!isOpen) {
         if (panelId === 'panel-perf' && window.Chart) initCharts();
         if (panelId === 'panel-ts' && window.Prism) Prism.highlightAll();
+        if (panelId === 'panel-threejs') {
+            const threeContainer = document.getElementById('three-portal-canvas');
+            if (typeof window.initThreePortal === 'function') {
+                const initialized = window.initThreePortal(threeContainer);
+                if (initialized && typeof window.startThreePortal === 'function') {
+                    window.startThreePortal();
+                }
+            } else {
+                // Module script may still be loading; retry once shortly after opening the panel.
+                setTimeout(function() {
+                    if (typeof window.initThreePortal === 'function') {
+                        const initialized = window.initThreePortal(threeContainer);
+                        if (initialized && typeof window.startThreePortal === 'function') {
+                            window.startThreePortal();
+                        }
+                    }
+                }, 250);
+            }
+        }
         setTimeout(function() {
             panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         }, 50);
+    } else if (panelId === 'panel-threejs' && typeof window.stopThreePortal === 'function') {
+        window.stopThreePortal();
     }
 }
 

@@ -620,6 +620,25 @@ console.log("Top player: " + ranked[0]);</textarea>
                     </p>
                     <button class="panel-close" onclick="toggleDemo('panel-playground', null)">Close ↑</button>
                 </div>
+                <!-- Card 5: Three.js Portal Demo -->
+                <div class="demo-card" id="card-threejs">
+                    <div class="demo-icon">&#127756;</div>
+                    <h3>Three.js Portal Demo</h3>
+                    <p>Sci-fi portal animation with particles, smooth orbit controls, and reactive lighting.</p>
+                    <button class="demo-btn" onclick="toggleDemo('panel-threejs', this)">Open Three.js Demo &rarr;</button>
+                </div>
+
+                <!-- Panel 5 -->
+                <div class="demo-panel" id="panel-threejs">
+                    <div class="three-demo-wrapper">
+                        <div class="three-demo-canvas" id="three-portal-canvas"></div>
+                        <div class="three-demo-fallback" id="three-portal-fallback" hidden>
+                            WebGL is not available on this device/browser. Try a modern browser with GPU acceleration.
+                        </div>
+                    </div>
+                    <p class="three-demo-controls">Move mouse to orbit &middot; Scroll to zoom</p>
+                    <button class="panel-close" onclick="toggleDemo('panel-threejs', null)">Close &uarr;</button>
+                </div>
 
             </div>
         </div>
@@ -796,5 +815,6 @@ console.log("Top player: " + ranked[0]);</textarea>
     <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
     <script src="assets/js/main.js"></script>
+    <script type="module" src="assets/js/three-demo.js"></script>
 </body>
 </html>

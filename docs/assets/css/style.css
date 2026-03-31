@@ -1029,6 +1029,51 @@
             color: var(--text-primary);
         }
 
+        /* Three.js demo panel */
+        .three-demo-wrapper {
+            position: relative;
+            width: 100%;
+            min-height: 360px;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid rgba(0, 255, 136, 0.25);
+            background:
+                radial-gradient(circle at 30% 25%, rgba(0, 255, 136, 0.08), transparent 45%),
+                radial-gradient(circle at 80% 85%, rgba(0, 212, 255, 0.08), transparent 40%),
+                #0d1117;
+        }
+
+        .three-demo-canvas {
+            width: 100%;
+            height: 420px;
+            touch-action: none;
+        }
+
+        .three-demo-canvas canvas {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+
+        .three-demo-fallback {
+            position: absolute;
+            inset: 0;
+            display: grid;
+            place-items: center;
+            padding: 1rem;
+            text-align: center;
+            color: var(--text-secondary);
+            background: rgba(10, 14, 26, 0.8);
+        }
+
+        .three-demo-controls {
+            text-align: center;
+            margin-top: 1rem;
+            font-size: 0.82rem;
+            color: var(--text-secondary);
+            letter-spacing: 0.2px;
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             nav ul {
@@ -1069,4 +1114,12 @@
             }
 
             .demo-panel { padding: 1.25rem; }
+
+            .three-demo-wrapper {
+                min-height: 260px;
+            }
+
+            .three-demo-canvas {
+                height: 300px;
+            }
         }
