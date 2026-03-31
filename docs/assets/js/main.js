@@ -271,7 +271,9 @@ function startLocalThreePortalFallback(container) {
 
 function showModuleLoadFallback(message) {
     const threeContainer = document.getElementById('three-portal-canvas');
-    showThreePortalFallback();
+    // Don't show the error overlay — the canvas fallback animation is already
+    // running and visible, so the message adds no value for the visitor.
+    // showThreePortalFallback();
     setThreePortalDiagnostic(message);
     startLocalThreePortalFallback(threeContainer);
 }
