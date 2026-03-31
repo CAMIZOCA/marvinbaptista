@@ -11,6 +11,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
     
     <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-okaidia.min.css">
     <link rel="icon" href="assets/img/favicon.ico" type="image/x-icon">
 </head>
 <body>
@@ -304,42 +305,322 @@
         </div>
     </section>
 
-    <!-- Interactive Demos Section - NEW -->
+    <!-- Interactive Demos Section -->
     <section id="demos">
         <h2 class="section-title">Interactive Demos</h2>
         <p class="section-subtitle">
             Live code examples and interactive showcases
         </p>
-        
+
         <div class="container">
             <div class="demo-grid">
-                <div class="demo-card">
+
+                <!-- Card 1: TypeScript Snippets -->
+                <div class="demo-card" id="card-ts">
                     <div class="demo-icon">💻</div>
                     <h3>TypeScript Snippets</h3>
-                    <p>Collection of reusable TypeScript code for VR development in Meta Horizon Worlds</p>
-                    <a href="https://github.com/camizoca?tab=repositories" target="_blank" rel="noopener noreferrer" class="demo-btn">View on GitHub &rarr;</a>
+                    <p>Collection of reusable TypeScript patterns for VR development in Meta Horizon Worlds</p>
+                    <button class="demo-btn" onclick="toggleDemo('panel-ts', this)">View Snippets &rarr;</button>
                 </div>
 
-                <div class="demo-card">
+                <!-- Panel 1 -->
+                <div class="demo-panel" id="panel-ts">
+                    <div class="snippet-tabs">
+                        <button class="snippet-tab active" onclick="showSnippet(0, this)">Leaderboard</button>
+                        <button class="snippet-tab" onclick="showSnippet(1, this)">Player State</button>
+                        <button class="snippet-tab" onclick="showSnippet(2, this)">Event Bus</button>
+                        <button class="snippet-tab" onclick="showSnippet(3, this)">Object Pool</button>
+                    </div>
+
+                    <div class="snippet-block active" id="snippet-0">
+                        <div class="snippet-header">
+                            <span class="snippet-title">VR Leaderboard — Score tracking with tie-breaking</span>
+                            <button class="copy-btn" onclick="copySnippet('code-0', this)">Copy</button>
+                        </div>
+                        <div class="snippet-code"><pre><code class="language-typescript" id="code-0">interface LeaderboardEntry {
+  playerId: string;
+  displayName: string;
+  score: number;
+  timestamp: number;
+}
+
+class VRLeaderboard {
+  private entries: LeaderboardEntry[] = [];
+  private readonly maxEntries: number;
+
+  constructor(maxEntries = 10) {
+    this.maxEntries = maxEntries;
+  }
+
+  addScore(playerId: string, displayName: string, score: number): void {
+    const entry: LeaderboardEntry = {
+      playerId,
+      displayName,
+      score,
+      timestamp: Date.now(),
+    };
+    this.entries.push(entry);
+    this.entries.sort((a, b) =>
+      b.score !== a.score ? b.score - a.score : a.timestamp - b.timestamp
+    );
+    this.entries = this.entries.slice(0, this.maxEntries);
+  }
+
+  getTopN(n: number): LeaderboardEntry[] {
+    return this.entries.slice(0, n);
+  }
+}</code></pre></div>
+                    </div>
+
+                    <div class="snippet-block" id="snippet-1">
+                        <div class="snippet-header">
+                            <span class="snippet-title">Player State Machine — FSM for VR avatar control</span>
+                            <button class="copy-btn" onclick="copySnippet('code-1', this)">Copy</button>
+                        </div>
+                        <div class="snippet-code"><pre><code class="language-typescript" id="code-1">type PlayerState = 'idle' | 'moving' | 'jumping' | 'interacting' | 'downed';
+
+interface StateTransition {
+  from: PlayerState;
+  to: PlayerState;
+  guard?: () => boolean;
+}
+
+class PlayerStateMachine {
+  private current: PlayerState = 'idle';
+  private readonly transitions: StateTransition[];
+  private onEnterCallbacks = new Map&lt;PlayerState, () =&gt; void&gt;();
+
+  constructor(transitions: StateTransition[]) {
+    this.transitions = transitions;
+  }
+
+  onEnter(state: PlayerState, cb: () =&gt; void): void {
+    this.onEnterCallbacks.set(state, cb);
+  }
+
+  transition(target: PlayerState): boolean {
+    const valid = this.transitions.some(
+      (t) =&gt; t.from === this.current &amp;&amp; t.to === target &amp;&amp; (!t.guard || t.guard())
+    );
+    if (!valid) return false;
+    this.current = target;
+    this.onEnterCallbacks.get(target)?.();
+    return true;
+  }
+
+  get state(): PlayerState { return this.current; }
+}</code></pre></div>
+                    </div>
+
+                    <div class="snippet-block" id="snippet-2">
+                        <div class="snippet-header">
+                            <span class="snippet-title">Event Bus — Typed pub/sub for VR scripts</span>
+                            <button class="copy-btn" onclick="copySnippet('code-2', this)">Copy</button>
+                        </div>
+                        <div class="snippet-code"><pre><code class="language-typescript" id="code-2">type EventMap = Record&lt;string, unknown&gt;;
+type Listener&lt;T&gt; = (payload: T) =&gt; void;
+
+class TypedEventBus&lt;Events extends EventMap&gt; {
+  private listeners = new Map&lt;keyof Events, Set&lt;Listener&lt;unknown&gt;&gt;&gt;();
+
+  on&lt;K extends keyof Events&gt;(event: K, listener: Listener&lt;Events[K]&gt;): () =&gt; void {
+    if (!this.listeners.has(event)) this.listeners.set(event, new Set());
+    this.listeners.get(event)!.add(listener as Listener&lt;unknown&gt;);
+    return () =&gt; this.off(event, listener);
+  }
+
+  off&lt;K extends keyof Events&gt;(event: K, listener: Listener&lt;Events[K]&gt;): void {
+    this.listeners.get(event)?.delete(listener as Listener&lt;unknown&gt;);
+  }
+
+  emit&lt;K extends keyof Events&gt;(event: K, payload: Events[K]): void {
+    this.listeners.get(event)?.forEach((l) =&gt; l(payload));
+  }
+}
+
+// Usage in Horizon Worlds
+type GameEvents = {
+  playerScored: { playerId: string; points: number };
+  roundEnded: { winnerId: string };
+};
+
+const bus = new TypedEventBus&lt;GameEvents&gt;();
+bus.on('playerScored', ({ playerId, points }) =&gt; {
+  console.log(`${playerId} scored ${points}`);
+});</code></pre></div>
+                    </div>
+
+                    <div class="snippet-block" id="snippet-3">
+                        <div class="snippet-header">
+                            <span class="snippet-title">Object Pool — Pooling for VR performance</span>
+                            <button class="copy-btn" onclick="copySnippet('code-3', this)">Copy</button>
+                        </div>
+                        <div class="snippet-code"><pre><code class="language-typescript" id="code-3">interface Poolable {
+  id: string;
+  active: boolean;
+  reset(): void;
+}
+
+class ObjectPool&lt;T extends Poolable&gt; {
+  private pool: T[] = [];
+  private factory: () =&gt; T;
+
+  constructor(factory: () =&gt; T, initialSize = 10) {
+    this.factory = factory;
+    for (let i = 0; i &lt; initialSize; i++) this.pool.push(factory());
+  }
+
+  acquire(): T {
+    const available = this.pool.find((obj) =&gt; !obj.active);
+    if (available) { available.active = true; return available; }
+    const fresh = this.factory();
+    fresh.active = true;
+    this.pool.push(fresh);
+    return fresh;
+  }
+
+  release(obj: T): void {
+    obj.active = false;
+    obj.reset();
+  }
+
+  get activeCount(): number {
+    return this.pool.filter((o) =&gt; o.active).length;
+  }
+}</code></pre></div>
+                    </div>
+
+                    <button class="panel-close" onclick="toggleDemo('panel-ts', null)">Close ↑</button>
+                </div>
+
+                <!-- Card 2: Performance Dashboard -->
+                <div class="demo-card" id="card-perf">
                     <div class="demo-icon">📊</div>
                     <h3>Performance Dashboard</h3>
                     <p>Interactive visualization of game metrics and player analytics</p>
-                    <a href="#contact" class="demo-btn">Request Live Demo &rarr;</a>
+                    <button class="demo-btn" onclick="toggleDemo('panel-perf', this)">Open Dashboard &rarr;</button>
                 </div>
 
-                <div class="demo-card">
+                <!-- Panel 2 -->
+                <div class="demo-panel" id="panel-perf">
+                    <div class="chart-grid">
+                        <div class="chart-box">
+                            <h4>Active Players by Genre</h4>
+                            <canvas id="chart-bar"></canvas>
+                        </div>
+                        <div class="chart-box">
+                            <h4>Monthly Player Growth (Last 12 Months)</h4>
+                            <canvas id="chart-line"></canvas>
+                        </div>
+                    </div>
+                    <button class="panel-close" onclick="toggleDemo('panel-perf', null)">Close ↑</button>
+                </div>
+
+                <!-- Card 3: UI Component Library -->
+                <div class="demo-card" id="card-ui">
                     <div class="demo-icon">🎨</div>
                     <h3>UI Component Library</h3>
-                    <p>Reusable Noesis UI components for VR interfaces</p>
-                    <a href="#contact" class="demo-btn">Request Components &rarr;</a>
+                    <p>Reusable Noesis UI components for VR interfaces — live preview below</p>
+                    <button class="demo-btn" onclick="toggleDemo('panel-ui', this)">Preview Components &rarr;</button>
                 </div>
 
-                <div class="demo-card">
+                <!-- Panel 3 -->
+                <div class="demo-panel" id="panel-ui">
+                    <div class="component-preview">
+                        <div class="component-group">
+                            <h4>Buttons</h4>
+                            <span class="vr-btn vr-btn-primary">Start Game</span>
+                            <span class="vr-btn vr-btn-secondary">View Scores</span>
+                            <span class="vr-btn vr-btn-danger">Leave Room</span>
+                        </div>
+                        <div class="component-group">
+                            <h4>Tags / Badges</h4>
+                            <div class="vr-tag-row">
+                                <span class="vr-tag vr-tag-green">TypeScript</span>
+                                <span class="vr-tag vr-tag-cyan">Noesis UI</span>
+                                <span class="vr-tag vr-tag-purple">Multiplayer</span>
+                                <span class="vr-tag vr-tag-green">VR</span>
+                                <span class="vr-tag vr-tag-cyan">Analytics</span>
+                            </div>
+                        </div>
+                        <div class="component-group">
+                            <h4>Stat Cards</h4>
+                            <div style="display:flex;gap:1rem;flex-wrap:wrap;">
+                                <div class="vr-stat-card">
+                                    <div class="vr-stat-value">219K</div>
+                                    <div class="vr-stat-label">Active Players</div>
+                                </div>
+                                <div class="vr-stat-card">
+                                    <div class="vr-stat-value">$15K</div>
+                                    <div class="vr-stat-label">Monthly Rev</div>
+                                </div>
+                                <div class="vr-stat-card">
+                                    <div class="vr-stat-value">3.4K</div>
+                                    <div class="vr-stat-label">Player Likes</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="margin-top:1.5rem;padding-top:1.5rem;border-top:1px solid rgba(255,255,255,0.06);text-align:center;">
+                        <a href="https://github.com/camizoca?tab=repositories" target="_blank" rel="noopener noreferrer" class="demo-btn" style="display:inline-block;">
+                            View Full Library on GitHub &rarr;
+                        </a>
+                    </div>
+                    <button class="panel-close" onclick="toggleDemo('panel-ui', null)">Close ↑</button>
+                </div>
+
+                <!-- Card 4: Code Playground -->
+                <div class="demo-card" id="card-playground">
                     <div class="demo-icon">⚡</div>
                     <h3>Code Playground</h3>
-                    <p>Interactive TypeScript editor with live VR examples</p>
-                    <a href="#contact" class="demo-btn">Open Playground Access &rarr;</a>
+                    <p>Interactive TypeScript editor — edit and run VR examples live</p>
+                    <button class="demo-btn" onclick="toggleDemo('panel-playground', this)">Open Playground &rarr;</button>
                 </div>
+
+                <!-- Panel 4 -->
+                <div class="demo-panel" id="panel-playground">
+                    <div class="playground-layout">
+                        <div>
+                            <div class="playground-editor-header">
+                                <span class="playground-label">TypeScript Editor</span>
+                                <button class="run-btn" onclick="runPlayground()">&#9654; Run</button>
+                            </div>
+                            <textarea class="playground-textarea" id="playground-input" spellcheck="false">// VR Leaderboard Demo
+interface Player {
+  name: string;
+  score: number;
+}
+
+const players: Player[] = [
+  { name: "AlphaVR", score: 4200 },
+  { name: "BetaRunner", score: 3800 },
+  { name: "GammaKing", score: 5100 },
+];
+
+const ranked = players
+  .sort((a, b) => b.score - a.score)
+  .map((p, i) => `#${i + 1} ${p.name}: ${p.score}`);
+
+console.log("=== Leaderboard ===");
+ranked.forEach(entry => console.log(entry));
+console.log("Top player: " + ranked[0]);</textarea>
+                        </div>
+                        <div>
+                            <div class="playground-editor-header">
+                                <span class="playground-label">Output</span>
+                                <button class="copy-btn" onclick="clearPlayground()" style="border-color:rgba(255,255,255,0.15);color:var(--text-secondary)">Clear</button>
+                            </div>
+                            <div class="playground-output" id="playground-output">
+                                <span class="output-line info">// Press ▶ Run to execute</span>
+                            </div>
+                        </div>
+                    </div>
+                    <p style="margin-top:1rem;font-size:0.78rem;color:var(--text-secondary);text-align:center;">
+                        Note: TypeScript type annotations are stripped before evaluation — standard JS logic runs as-is.
+                    </p>
+                    <button class="panel-close" onclick="toggleDemo('panel-playground', null)">Close ↑</button>
+                </div>
+
             </div>
         </div>
     </section>
@@ -511,6 +792,9 @@
             scrollCarousel(1);
         }, 5000);
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
     <script src="assets/js/main.js"></script>
 </body>
 </html>

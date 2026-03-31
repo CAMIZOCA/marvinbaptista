@@ -128,3 +128,181 @@ function initProjectGalleryLinks() {
 }
 
 initProjectGalleryLinks();
+
+/* =============================================
+   Interactive Demo Panels
+   ============================================= */
+
+function toggleDemo(panelId, triggerBtn) {
+    const panel = document.getElementById(panelId);
+    if (!panel) return;
+
+    const isOpen = panel.classList.contains('active');
+
+    // Close all other open panels
+    document.querySelectorAll('.demo-panel.active').forEach(function(p) {
+        if (p.id !== panelId) p.classList.remove('active');
+    });
+
+    panel.classList.toggle('active', !isOpen);
+
+    if (!isOpen) {
+        if (panelId === 'panel-perf' && window.Chart) initCharts();
+        if (panelId === 'panel-ts' && window.Prism) Prism.highlightAll();
+        setTimeout(function() {
+            panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }, 50);
+    }
+}
+
+// ---- TypeScript Snippets ----
+
+function showSnippet(index, tabEl) {
+    document.querySelectorAll('#panel-ts .snippet-block').forEach(function(b) {
+        b.classList.remove('active');
+    });
+    document.querySelectorAll('#panel-ts .snippet-tab').forEach(function(t) {
+        t.classList.remove('active');
+    });
+    var block = document.getElementById('snippet-' + index);
+    if (block) block.classList.add('active');
+    if (tabEl) tabEl.classList.add('active');
+    if (window.Prism) Prism.highlightAll();
+}
+
+function copySnippet(codeId, btn) {
+    var el = document.getElementById(codeId);
+    if (!el) return;
+    var text = el.textContent;
+    navigator.clipboard.writeText(text).then(function() {
+        btn.textContent = 'Copied!';
+        btn.classList.add('copied');
+        setTimeout(function() {
+            btn.textContent = 'Copy';
+            btn.classList.remove('copied');
+        }, 2000);
+    });
+}
+
+// ---- Performance Dashboard ----
+
+var chartsInitialized = false;
+
+function initCharts() {
+    if (chartsInitialized) return;
+    chartsInitialized = true;
+
+    var tickColor = '#9ca3b8';
+    var gridColor = 'rgba(255,255,255,0.05)';
+    var commonScales = {
+        x: { ticks: { color: tickColor, font: { family: 'DM Sans' } }, grid: { color: gridColor } },
+        y: { ticks: { color: tickColor, font: { family: 'DM Sans' } }, grid: { color: gridColor } }
+    };
+    var legendOpts = { labels: { color: tickColor, font: { family: 'DM Sans' } } };
+
+    new Chart(document.getElementById('chart-bar'), {
+        type: 'bar',
+        data: {
+            labels: ['Action', 'Social', 'Puzzle', 'Sports', 'Horror', 'Trivia'],
+            datasets: [{
+                label: 'Active Players (K)',
+                data: [219, 87, 43, 61, 29, 35],
+                backgroundColor: [
+                    'rgba(0,255,136,0.75)',
+                    'rgba(0,212,255,0.75)',
+                    'rgba(160,100,255,0.75)',
+                    'rgba(0,255,136,0.5)',
+                    'rgba(255,100,100,0.75)',
+                    'rgba(0,212,255,0.5)'
+                ],
+                borderRadius: 6,
+                borderSkipped: false
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: { legend: legendOpts },
+            scales: commonScales
+        }
+    });
+
+    var months = ['Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec','Jan','Feb','Mar'];
+    new Chart(document.getElementById('chart-line'), {
+        type: 'line',
+        data: {
+            labels: months,
+            datasets: [{
+                label: 'Total Players (K)',
+                data: [48, 62, 81, 95, 110, 128, 149, 163, 180, 194, 208, 219],
+                borderColor: '#00ff88',
+                backgroundColor: 'rgba(0,255,136,0.08)',
+                fill: true,
+                tension: 0.4,
+                pointBackgroundColor: '#00ff88',
+                pointRadius: 4
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: { legend: legendOpts },
+            scales: commonScales
+        }
+    });
+}
+
+// ---- Code Playground ----
+
+function runPlayground() {
+    var output = document.getElementById('playground-output');
+    var code = document.getElementById('playground-input').value;
+    output.innerHTML = '';
+
+    var logs = [];
+    var fakeConsole = {
+        log: function() {
+            var args = Array.prototype.slice.call(arguments);
+            logs.push({ type: 'log', text: args.map(String).join(' ') });
+        },
+        error: function() {
+            var args = Array.prototype.slice.call(arguments);
+            logs.push({ type: 'error', text: args.map(String).join(' ') });
+        },
+        warn: function() {
+            var args = Array.prototype.slice.call(arguments);
+            logs.push({ type: 'info', text: '[warn] ' + args.map(String).join(' ') });
+        }
+    };
+
+    // Minimal TypeScript-to-JS stripping (demo only)
+    var jsCode = code
+        .replace(/interface\s+\w+\s*\{[^}]*\}/gs, '')
+        .replace(/:\s*[A-Z][A-Za-z<>\[\]|,\s]*(?=[=,;)\n{])/g, '')
+        .replace(/const\s+(\w+):\s*\w+(\[\])?/g, 'const $1')
+        .replace(/let\s+(\w+):\s*\w+(\[\])?/g, 'let $1')
+        .replace(/<[A-Za-z,\s]+>/g, '');
+
+    try {
+        var fn = new Function('console', jsCode);
+        fn(fakeConsole);
+        if (logs.length === 0) {
+            output.innerHTML = '<span class="output-line info">// No output</span>';
+        } else {
+            logs.forEach(function(entry) {
+                var line = document.createElement('span');
+                line.className = 'output-line ' + entry.type;
+                line.textContent = entry.type === 'log' ? entry.text : entry.text;
+                output.appendChild(line);
+            });
+        }
+    } catch (err) {
+        var line = document.createElement('span');
+        line.className = 'output-line error';
+        line.textContent = 'Error: ' + err.message;
+        output.appendChild(line);
+    }
+}
+
+function clearPlayground() {
+    document.getElementById('playground-output').innerHTML =
+        '<span class="output-line info">// Cleared</span>';
+}
