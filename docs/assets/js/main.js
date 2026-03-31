@@ -343,10 +343,10 @@ function toggleDemo(panelId, triggerBtn) {
                 if (typeof window.startThreePortal === 'function') {
                     window.startThreePortal();
                 }
-                if (initialized) {
-                    hideThreePortalFallback();
-                    setThreePortalDiagnostic('');
-                }
+                // Hide the error overlay whether WebGL or canvas fallback is running —
+                // the animation is already visible so the message is unnecessary.
+                hideThreePortalFallback();
+                setThreePortalDiagnostic('');
             } else {
                 const reason = window.__threePortalModuleError
                     ? 'CDN/module load error: failed to load Three.js module script.'
@@ -361,10 +361,8 @@ function toggleDemo(panelId, triggerBtn) {
                         if (typeof window.startThreePortal === 'function') {
                             window.startThreePortal();
                         }
-                        if (initialized) {
-                            hideThreePortalFallback();
-                            setThreePortalDiagnostic('');
-                        }
+                        hideThreePortalFallback();
+                        setThreePortalDiagnostic('');
                     } else {
                         const retryReason = window.__threePortalModuleError
                             ? 'CDN/module load error: failed to load Three.js module script.'
