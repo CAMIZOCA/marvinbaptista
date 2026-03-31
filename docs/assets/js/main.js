@@ -45,14 +45,16 @@ const webProjects = [
         description: "A family eye care and optical website in Quito, offering eye exams, contact lenses, eyewear, and personalized vision services.",
         tags: ["Laravel", "php", "mysql", "stripe"],
         image: "assets/img/web/optica.jpg",
-        liveUrl: "https://opticaandina.com.ec/"
+        liveUrl: "https://opticaandina.com.ec/",
+        repoUrl: "https://github.com/CAMIZOCA/OpticaAndina"
     },
     {
         title: "Recipe website",
         description: "A recipe website featuring authentic Latin American and Mediterranean dishes, with step-by-step cooking guides, chef tips, and cookbook recommendations.",
         tags: ["Laravel", "php", "mysql"],
         image: "assets/img/web/cookbook.jpg",
-        liveUrl: "http://marvinbaptista.com/"
+        liveUrl: "http://marvinbaptista.com/",
+        repoUrl: "https://github.com/CAMIZOCA/marvinBaptistaRecipe"
     }
 ];
 
@@ -271,11 +273,22 @@ function startLocalThreePortalFallback(container) {
 
 function showModuleLoadFallback(message) {
     const threeContainer = document.getElementById('three-portal-canvas');
-    // Don't show the error overlay — the canvas fallback animation is already
-    // running and visible, so the message adds no value for the visitor.
-    // showThreePortalFallback();
+    // Show a clear diagnostic so users understand file:// CORS/module issues.
+    showThreePortalFallback();
     setThreePortalDiagnostic(message);
     startLocalThreePortalFallback(threeContainer);
+}
+
+function getThreePortalModuleUnavailableReason(isLoadingPhase) {
+    if (window.__threeModulesBlockedByFileProtocol || window.location.protocol === 'file:') {
+        return 'Local file mode (file://) blocks ES modules by browser CORS policy. Run a local server (for example: `cd docs && python -m http.server 5500`) or use GitHub Pages.';
+    }
+    if (window.__threePortalModuleError) {
+        return 'CDN/module load error: failed to load Three.js module script.';
+    }
+    return isLoadingPhase
+        ? 'CDN/module load error: Three.js module is still loading.'
+        : 'CDN/module load error: Three.js API is unavailable.';
 }
 
 function setupThreePortalRetryButton() {
@@ -301,14 +314,111 @@ function setupThreePortalRetryButton() {
             return;
         }
 
-        const reason = window.__threePortalModuleError
-            ? 'CDN/module load error: failed to load Three.js module script.'
-            : 'CDN/module load error: Three.js API is unavailable.';
-        showModuleLoadFallback(reason);
+        showModuleLoadFallback(getThreePortalModuleUnavailableReason(false));
     });
 }
 
 setupThreePortalRetryButton();
+
+function setThreeDoorDiagnostic(message) {
+    const diagnostic = document.getElementById('three-door-diagnostic');
+    if (diagnostic) {
+        diagnostic.textContent = message || '';
+    }
+}
+
+function showThreeDoorFallback() {
+    const fallback = document.getElementById('three-door-fallback');
+    if (fallback) {
+        fallback.hidden = false;
+    }
+}
+
+function hideThreeDoorFallback() {
+    const fallback = document.getElementById('three-door-fallback');
+    if (fallback) {
+        fallback.hidden = true;
+    }
+}
+
+function updateDoorToggleButton() {
+    const btn = document.getElementById('three-door-toggle-btn');
+    if (!btn || typeof window.getThreeDoorState !== 'function') {
+        return;
+    }
+
+    const currentState = window.getThreeDoorState();
+    btn.disabled = currentState === 'animating';
+
+    if (currentState === 'open') {
+        btn.textContent = 'Close Door';
+    } else if (currentState === 'closed') {
+        btn.textContent = 'Open Door';
+    } else {
+        btn.textContent = 'Animating...';
+    }
+}
+
+function showDoorModuleLoadFallback(message) {
+    showThreeDoorFallback();
+    setThreeDoorDiagnostic(message);
+    updateDoorToggleButton();
+}
+
+function getThreeDoorModuleUnavailableReason(isLoadingPhase) {
+    if (window.__threeModulesBlockedByFileProtocol || window.location.protocol === 'file:') {
+        return 'Local file mode (file://) blocks ES modules by browser CORS policy. Run a local server (for example: `cd docs && python -m http.server 5500`) or use GitHub Pages.';
+    }
+    if (window.__threeDoorModuleError) {
+        return 'CDN/module load error: failed to load Three.js Door module.';
+    }
+    return isLoadingPhase
+        ? 'CDN/module load error: Three.js Door module is still loading.'
+        : 'CDN/module load error: Three.js Door API is unavailable.';
+}
+
+function setupThreeDoorControls() {
+    const retryBtn = document.getElementById('three-door-retry-btn');
+    if (retryBtn && retryBtn.dataset.bound !== 'true') {
+        retryBtn.dataset.bound = 'true';
+        retryBtn.addEventListener('click', function () {
+            const doorContainer = document.getElementById('three-door-canvas');
+            if (typeof window.initThreeDoor === 'function') {
+                const initialized = window.initThreeDoor(doorContainer);
+                if (typeof window.startThreeDoor === 'function') {
+                    window.startThreeDoor();
+                }
+                if (initialized) {
+                    hideThreeDoorFallback();
+                    setThreeDoorDiagnostic('');
+                }
+                updateDoorToggleButton();
+                return;
+            }
+
+            showDoorModuleLoadFallback(getThreeDoorModuleUnavailableReason(false));
+        });
+    }
+
+    const toggleBtn = document.getElementById('three-door-toggle-btn');
+    if (toggleBtn && toggleBtn.dataset.bound !== 'true') {
+        toggleBtn.dataset.bound = 'true';
+        toggleBtn.addEventListener('click', function () {
+            if (typeof window.toggleThreeDoor === 'function') {
+                window.toggleThreeDoor();
+            }
+            updateDoorToggleButton();
+        });
+    }
+
+    updateDoorToggleButton();
+}
+
+setupThreeDoorControls();
+
+window.addEventListener('three-door-state', function () {
+    updateDoorToggleButton();
+});
 
 /* =============================================
    Interactive Demo Panels
@@ -330,6 +440,9 @@ function toggleDemo(panelId, triggerBtn) {
             if (p.id === 'panel-threejs') {
                 stopLocalThreePortalFallback();
             }
+            if (p.id === 'panel-threejs-door' && typeof window.stopThreeDoor === 'function') {
+                window.stopThreeDoor();
+            }
         }
     });
 
@@ -350,10 +463,7 @@ function toggleDemo(panelId, triggerBtn) {
                 hideThreePortalFallback();
                 setThreePortalDiagnostic('');
             } else {
-                const reason = window.__threePortalModuleError
-                    ? 'CDN/module load error: failed to load Three.js module script.'
-                    : 'CDN/module load error: Three.js module is still loading.';
-                showModuleLoadFallback(reason);
+                showModuleLoadFallback(getThreePortalModuleUnavailableReason(true));
 
                 // Module script may still be loading; retry once shortly after opening the panel.
                 setTimeout(function() {
@@ -366,10 +476,40 @@ function toggleDemo(panelId, triggerBtn) {
                         hideThreePortalFallback();
                         setThreePortalDiagnostic('');
                     } else {
-                        const retryReason = window.__threePortalModuleError
-                            ? 'CDN/module load error: failed to load Three.js module script.'
-                            : 'CDN/module load error: Three.js API is unavailable.';
-                        showModuleLoadFallback(retryReason);
+                        showModuleLoadFallback(getThreePortalModuleUnavailableReason(false));
+                    }
+                }, 250);
+            }
+        }
+        if (panelId === 'panel-threejs-door') {
+            const doorContainer = document.getElementById('three-door-canvas');
+            setupThreeDoorControls();
+            if (typeof window.initThreeDoor === 'function') {
+                const initialized = window.initThreeDoor(doorContainer);
+                if (typeof window.startThreeDoor === 'function') {
+                    window.startThreeDoor();
+                }
+                if (initialized) {
+                    hideThreeDoorFallback();
+                    setThreeDoorDiagnostic('');
+                }
+                updateDoorToggleButton();
+            } else {
+                showDoorModuleLoadFallback(getThreeDoorModuleUnavailableReason(true));
+
+                setTimeout(function() {
+                    if (typeof window.initThreeDoor === 'function') {
+                        const initialized = window.initThreeDoor(doorContainer);
+                        if (typeof window.startThreeDoor === 'function') {
+                            window.startThreeDoor();
+                        }
+                        if (initialized) {
+                            hideThreeDoorFallback();
+                            setThreeDoorDiagnostic('');
+                        }
+                        updateDoorToggleButton();
+                    } else {
+                        showDoorModuleLoadFallback(getThreeDoorModuleUnavailableReason(false));
                     }
                 }, 250);
             }
@@ -380,6 +520,8 @@ function toggleDemo(panelId, triggerBtn) {
     } else if (panelId === 'panel-threejs' && typeof window.stopThreePortal === 'function') {
         window.stopThreePortal();
         stopLocalThreePortalFallback();
+    } else if (panelId === 'panel-threejs-door' && typeof window.stopThreeDoor === 'function') {
+        window.stopThreeDoor();
     }
 }
 

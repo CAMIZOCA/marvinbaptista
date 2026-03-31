@@ -643,6 +643,31 @@ console.log("Top player: " + ranked[0]);</textarea>
                     <button class="panel-close" onclick="toggleDemo('panel-threejs', null)">Close &uarr;</button>
                 </div>
 
+                <!-- Card 6: Three.js Door Demo -->
+                <div class="demo-card" id="card-threejs-door">
+                    <div class="demo-icon">&#128682;</div>
+                    <h3>Three.js Door Demo</h3>
+                    <p>Interactive 3D door with open/close controls and direct click interaction on the model.</p>
+                    <button class="demo-btn" onclick="toggleDemo('panel-threejs-door', this)">Open Door Demo &rarr;</button>
+                </div>
+
+                <!-- Panel 6 -->
+                <div class="demo-panel" id="panel-threejs-door">
+                    <div class="three-door-wrapper">
+                        <div class="three-door-canvas" id="three-door-canvas"></div>
+                        <div class="three-door-fallback" id="three-door-fallback" hidden>
+                            Door demo could not initialize in WebGL mode. Running compatibility fallback.
+                            <div class="three-door-diagnostic" id="three-door-diagnostic"></div>
+                            <button class="three-door-retry" id="three-door-retry-btn" type="button">Retry</button>
+                        </div>
+                    </div>
+                    <div class="three-door-controls">
+                        <span>Click the door or use the button</span>
+                        <button class="three-door-toggle" id="three-door-toggle-btn" type="button">Open Door</button>
+                    </div>
+                    <button class="panel-close" onclick="toggleDemo('panel-threejs-door', null)">Close &uarr;</button>
+                </div>
+
             </div>
         </div>
     </section>
@@ -907,6 +932,30 @@ console.log("Top player: " + ranked[0]);</textarea>
         }
     }
     </script>
-    <script type="module" src="assets/js/three-demo.js" onerror="window.__threePortalModuleError=true;"></script>
+    <script>
+        (function () {
+            const isHttp = window.location.protocol === "http:" || window.location.protocol === "https:";
+
+            if (!isHttp) {
+                window.__threePortalModuleError = true;
+                window.__threeDoorModuleError = true;
+                window.__threeModulesBlockedByFileProtocol = true;
+                return;
+            }
+
+            function loadThreeModule(src, errorFlag) {
+                const moduleScript = document.createElement("script");
+                moduleScript.type = "module";
+                moduleScript.src = src;
+                moduleScript.onerror = function () {
+                    window[errorFlag] = true;
+                };
+                document.body.appendChild(moduleScript);
+            }
+
+            loadThreeModule("assets/js/three-demo.js", "__threePortalModuleError");
+            loadThreeModule("assets/js/three-door-demo.js", "__threeDoorModuleError");
+        })();
+    </script>
 </body>
 </html>
