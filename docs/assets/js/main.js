@@ -46,6 +46,13 @@ const webProjects = [
         tags: ["Laravel", "php", "mysql", "stripe"],
         image: "assets/img/web/optica.jpg",
         liveUrl: "https://opticaandina.com.ec/"
+    },
+    {
+        title: "Recipe website",
+        description: "A recipe website featuring authentic Latin American and Mediterranean dishes, with step-by-step cooking guides, chef tips, and cookbook recommendations.",
+        tags: ["Laravel", "php", "mysql"],
+        image: "assets/img/web/cookbook.jpg",
+        liveUrl: "http://marvinbaptista.com/"
     }
 ];
 
