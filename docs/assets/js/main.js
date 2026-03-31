@@ -3,7 +3,7 @@ const WEB_PROJECT_FALLBACK_IMAGE = "assets/img/web/placeholder-web-project.svg";
 const webProjects = [
     {
         title: "IonPacific Corporate Site",
-        description: "Custom WordPress solution with advanced integrations.",
+        description: "A financial services website focused on venture capital, offering investment management and liquidity solutions for investors and the innovation economy.",
         tags: ["WordPress", "PHP", "Custom Theme"],
         image: "assets/img/web/ionpacific.jpg",
         liveUrl: "https://ionpacific.com/",
@@ -11,27 +11,41 @@ const webProjects = [
     },
     {
         title: "Telesing Platform",
-        description: "Enterprise communication platform.",
+        description: "A digital identity and communications platform that helps businesses verify users, prevent fraud, and engage customers through SMS, voice, and authentication APIs.",
         tags: ["WordPress", "API Integration"],
         image: "assets/img/web/telesing.jpg",
         liveUrl: "https://www.telesign.com/",
         repoUrl: ""
     },
     {
+        title: "The sunset team",
+        description: "A luxury real estate website showcasing high-end homes and expert buying, selling, and design services in Los Angeles.",
+        tags: ["Wordpress", "mysql", "php"],
+        image: "assets/img/web/sunset.jpg",
+        liveUrl: "https://www.thesunsetteam.com/",
+        repoUrl: ""
+    },    
+    {
         title: "Mitto Solutions",
-        description: "Custom web application.",
+        description: "An omnichannel communications platform that helps businesses connect with customers through SMS, voice, chat apps, and authentication solutions.",
         tags: ["React", "Node.js"],
         image: "assets/img/web/mitto.jpg",
-        liveUrl: "",
+        liveUrl: "https://mitto.ch/",
         repoUrl: ""
     },
     {
-        title: "Data Aggregation System",
-        description: "Job posting aggregation platform (Neuvoo.ca).",
-        tags: ["Node.js", "ElasticSearch", "RabbitMQ"],
-        image: "assets/img/web/data-aggregation.jpg",
-        liveUrl: "",
-        repoUrl: ""
+        title: "Un tesoro para mamá",
+        description: "A website that sells DIY breast milk jewelry kits, helping moms turn a meaningful part of their breastfeeding journey into a lasting keepsake.",
+        tags: ["Laravel", "php", "mysql", "stripe"],
+        image: "assets/img/web/jewelry.jpg",
+        liveUrl: "https://untesoroparamama.com/"
+    },
+    {
+        title: "Optica Andina",
+        description: "A family eye care and optical website in Quito, offering eye exams, contact lenses, eyewear, and personalized vision services.",
+        tags: ["Laravel", "php", "mysql", "stripe"],
+        image: "assets/img/web/optica.jpg",
+        liveUrl: "https://opticaandina.com.ec/"
     }
 ];
 
