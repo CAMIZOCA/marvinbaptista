@@ -313,7 +313,6 @@
             overflow: hidden;
             border: 1px solid rgba(255, 255, 255, 0.05);
             transition: transform 0.3s, box-shadow 0.3s;
-            cursor: pointer;
         }
 
         .portfolio-item:hover {
@@ -329,29 +328,23 @@
             align-items: center;
             justify-content: center;
             color: var(--text-secondary);
-            font-size: 3rem;
             position: relative;
             overflow: hidden;
         }
 
-        .portfolio-thumbnail::after {
-            content: 'Click to view';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: rgba(0, 255, 136, 0.9);
-            color: var(--bg-dark);
-            padding: 0.5rem;
-            font-size: 0.85rem;
-            font-weight: 600;
-            text-align: center;
-            transform: translateY(100%);
-            transition: transform 0.3s;
+        .portfolio-thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
         }
 
-        .portfolio-item:hover .portfolio-thumbnail::after {
-            transform: translateY(0);
+        .portfolio-thumbnail::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(10, 14, 26, 0.35), transparent 55%);
+            pointer-events: none;
         }
 
         .portfolio-info {
@@ -383,6 +376,44 @@
             border-radius: 20px;
             font-size: 0.75rem;
             color: var(--accent-primary);
+        }
+
+        .portfolio-links {
+            margin-top: 1rem;
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+
+        .portfolio-link {
+            display: inline-block;
+            padding: 0.55rem 1rem;
+            background: rgba(0, 255, 136, 0.1);
+            border: 1px solid rgba(0, 255, 136, 0.3);
+            border-radius: 8px;
+            color: var(--accent-primary);
+            text-decoration: none;
+            font-size: 0.82rem;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .portfolio-link:hover {
+            background: rgba(0, 255, 136, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .portfolio-link.secondary {
+            background: rgba(0, 212, 255, 0.1);
+            border-color: rgba(0, 212, 255, 0.35);
+            color: var(--accent-secondary);
+        }
+
+        .portfolio-help {
+            text-align: center;
+            color: var(--text-secondary);
+            margin-top: 3rem;
+            font-size: 0.95rem;
         }
 
         /* GitHub Section */
