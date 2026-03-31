@@ -1074,6 +1074,191 @@
             letter-spacing: 0.2px;
         }
 
+        /* =============================================
+           Udemy Teaching Section
+           ============================================= */
+
+        #teaching {
+            background: var(--bg-dark);
+        }
+
+        /* Instructor stats bar */
+        .udemy-stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+            max-width: 860px;
+            margin: 0 auto 3.5rem;
+            background: var(--bg-card);
+            border: 1px solid rgba(0, 255, 136, 0.12);
+            border-radius: 16px;
+            padding: 2rem;
+        }
+
+        .udemy-stat {
+            text-align: center;
+        }
+
+        .udemy-stat-value {
+            display: block;
+            font-family: 'Archivo Black', sans-serif;
+            font-size: 2rem;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.1;
+            margin-bottom: 0.4rem;
+        }
+
+        .udemy-stat-label {
+            font-size: 0.82rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        /* Course grid */
+        .course-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            max-width: 960px;
+            margin: 0 auto;
+        }
+
+        .course-card {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            transition: transform 0.3s, border-color 0.3s;
+        }
+
+        .course-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+            background: var(--gradient-1);
+            transform: scaleX(0);
+            transition: transform 0.3s;
+        }
+
+        .course-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(0, 255, 136, 0.25);
+        }
+
+        .course-card:hover::before { transform: scaleX(1); }
+
+        .course-rating-badge {
+            position: absolute;
+            top: 1.25rem;
+            right: 1.25rem;
+            background: rgba(0, 255, 136, 0.12);
+            border: 1px solid rgba(0, 255, 136, 0.3);
+            color: var(--accent-primary);
+            font-size: 0.8rem;
+            font-weight: 700;
+            padding: 0.3rem 0.75rem;
+            border-radius: 20px;
+        }
+
+        .course-icon {
+            font-size: 2.2rem;
+            line-height: 1;
+        }
+
+        .course-card h3 {
+            font-family: 'Archivo Black', sans-serif;
+            font-size: 1.15rem;
+            line-height: 1.35;
+            padding-right: 3.5rem;
+            margin: 0;
+        }
+
+        .course-description {
+            color: var(--text-secondary);
+            font-size: 0.92rem;
+            line-height: 1.6;
+            margin: 0;
+            flex: 1;
+        }
+
+        .course-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .course-meta-item {
+            font-size: 0.78rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 0.3rem 0.75rem;
+            border-radius: 6px;
+        }
+
+        .course-reviews {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        .course-stars {
+            color: #f5a623;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+        }
+
+        .course-review-count {
+            font-size: 0.82rem;
+            color: var(--text-secondary);
+        }
+
+        .course-btn {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            background: rgba(0, 255, 136, 0.1);
+            border: 1px solid rgba(0, 255, 136, 0.3);
+            color: var(--accent-primary);
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+            align-self: flex-start;
+        }
+
+        .course-btn:hover {
+            background: rgba(0, 255, 136, 0.2);
+            transform: translateX(4px);
+        }
+
+        .udemy-profile-btn {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            background: var(--gradient-1);
+            color: var(--bg-dark);
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1rem;
+            border-radius: 50px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .udemy-profile-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0, 255, 136, 0.3);
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             nav ul {
@@ -1114,6 +1299,16 @@
             }
 
             .demo-panel { padding: 1.25rem; }
+
+            .udemy-stats {
+                grid-template-columns: 1fr 1fr;
+                gap: 1rem;
+                padding: 1.5rem;
+            }
+
+            .course-grid {
+                grid-template-columns: 1fr;
+            }
 
             .three-demo-wrapper {
                 min-height: 260px;
