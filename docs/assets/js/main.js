@@ -94,3 +94,37 @@ function renderWebPortfolioProjects() {
 }
 
 renderWebPortfolioProjects();
+
+function initProjectGalleryLinks() {
+    const galleryItems = document.querySelectorAll(".carousel-item");
+    if (!galleryItems.length) {
+        return;
+    }
+
+    galleryItems.forEach((item) => {
+        const gameUrl = (item.dataset.gameUrl || "").trim();
+        const existingActions = item.querySelector(".carousel-actions");
+        if (existingActions) {
+            existingActions.remove();
+        }
+
+        if (!gameUrl) {
+            return;
+        }
+
+        const actions = document.createElement("div");
+        actions.className = "carousel-actions";
+
+        const visitBtn = document.createElement("a");
+        visitBtn.className = "carousel-visit-btn";
+        visitBtn.href = gameUrl;
+        visitBtn.target = "_blank";
+        visitBtn.rel = "noopener noreferrer";
+        visitBtn.textContent = "Visit";
+
+        actions.appendChild(visitBtn);
+        item.appendChild(actions);
+    });
+}
+
+initProjectGalleryLinks();
